@@ -23,14 +23,12 @@ NOTE: If running master/slave I'd recommend doing this on just *one* of the slav
 	gem install mongo
 * Grab the plugin
 	git clone git://github.com/lobster1234/munin-mongo-collections
-* Make sure mongo_collections.rb is +x for owner, group and others  
+* Make sure mongo_collections.rb is +x for owner, group and others 
+        chmod +x mongo_collections.rb 
 	cp mongo_collections.rb /usr/share/munin/plugins/
 	ln -s /usr/share/munin/plugins/mongo_collections.rb /etc/munin/plugins/mongo_collections.rb
 * Now to add the database name to the plugin configuration, do this:
-    cp munin-plugins-rails/rails_requests /usr/share/munin/plugins/
-    chmod +x /usr/share/munin/plugins/rails_requests
-    ln -s /usr/share/munin/plugins/rails_requests /etc/munin/plugins/rails_requests
-    sudo vi /etc/munin/plugin-conf.d/munin-node
+        sudo vi /etc/munin/plugin-conf.d/munin-node
 * Paste this to the bottom of the file
 	[mongo*]
 	env.dbname replace_with_your_database_name
