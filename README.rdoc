@@ -57,6 +57,7 @@ NOTE: If running master/slave I'd recommend doing this on just *one* of the slav
        graph_category MongoDB
 
 ==TODO
+
 # Support discovery of databases on the node and pick up the collections in every db
 # Support datbase/collection names whitelisting where only the whitelisted dbs/collections will be scanned
 # Support user/password auth
