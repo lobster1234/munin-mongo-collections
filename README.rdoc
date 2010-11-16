@@ -1,8 +1,7 @@
 = munin-mongo-collections
 
-This project contains the munin plugin that monitors the document size of various collections within a database. 
+This project contains the munin plugin that monitors the number of documents in various collections within a database. 
 The database name is configured in the munin-plugin.conf file.
-
 
 == Dependencies
 
@@ -13,7 +12,9 @@ The database name is configured in the munin-plugin.conf file.
 
 I have tested these steps on Centos5 and Ubuntu 10.10
 
-Follow these steps on the same server you're running your mongo instance on, if running master/slave I'd recommend doing this on the slave node. Do not set up this plugin on all the nodes in a replica-set or master/slave config, as they all will report pretty much the same data.
+Follow these steps on the same server you're running your mongo instance on. 
+
+NOTE: If running master/slave I'd recommend doing this on just *one* of the slave nodes. Do not set up this plugin on all the nodes in a replica-set/replica-pair or master/slave config, as they all will report pretty much the same data.
 
 # Verify if you have mongo gem installed
 	mpandit@mpandit-ubuntu:~$ gem list | grep mongo
@@ -38,4 +39,30 @@ Follow these steps on the same server you're running your mongo instance on, if 
 	sudo /etc/init.d/munin-node restart
 # Make sure the munin server is listening from this node and you should be good to go!
 
+==Test
+# You can test this by simply running the plugin on command line (replace mydb with your database name)
+       export dbname=mydb 
+       cd /etc/munin/plugins
+       ./mongo_collections config
+# You should see something like this, in this case mydb contains only 1 collection called twitter.
+       twitter.label twitter
+       twitter.min 0
+       twitter.max 3000000
+       twitter.draw LINE1
+       twitter.type GAUGE
+       twitter.info Number of documents in twitter
+       graph_title MongoDB Collections in mydb
+       graph_args --base 1000
+       graph_vlabel documents
+       graph_category MongoDB
+
+==TODO
+# Support discovery of databases on the node and pick up the collections in every db
+# Support datbase/collection names whitelisting where only the whitelisted dbs/collections will be scanned
+# Support user/password auth
+# Remove dependency on running on the same node as the mongo instance.
+
 Enjoy!
+
+@lobster1234 on Twitter
+pandit(dot)manish(at)gmail(dot)com
