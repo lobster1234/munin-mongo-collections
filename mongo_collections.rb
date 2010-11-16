@@ -21,7 +21,6 @@ if ARGV.size != 0 && ARGV[0].eql?("config")
         puts "graph_vlabel documents"
         puts "graph_category MongoDB"
 else #output the data here
-        db = Mongo::Connection.new("localhost",27017).db(ENV['dbname']);
                 db.collection_names.each{ |collection|
                 coll = db.collection(collection)
                 puts collection.gsub('.','?')+'.value '+coll.count.to_s
