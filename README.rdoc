@@ -1,0 +1,41 @@
+= munin-mongo-collections
+
+This project contains the munin plugin that monitors the document size of various collections within a database. 
+The database name is configured in the munin-plugin.conf file.
+
+
+== Dependencies
+
+* Ruby 1.8+
+* mongo gem
+
+== Installation
+
+I have tested these steps on Centos5 and Ubuntu 10.10
+
+Follow these steps on the same server you're running your mongo instance on, if running master/slave I'd recommend doing this on the slave node. Do not set up this plugin on all the nodes in a replica-set or master/slave config, as they all will report pretty much the same data.
+
+# Verify if you have mongo gem installed
+	mpandit@mpandit-ubuntu:~$ gem list | grep mongo
+	mongo (1.1.2, 1.1)
+# If missing, then install with 
+	gem install mongo
+# Grab the plugin
+	git clone git://github.com/lobster1234/munin-mongo-collections
+# Make sure mongo_collections.rb is +x for owner, group and others  
+	cp mongo_collections.rb /usr/share/munin/plugins/
+	ln -s /usr/share/munin/plugins/mongo_collections.rb /etc/munin/plugins/mongo_collections.rb
+# Now to add the database name to the plugin configuration, do this:
+    cp munin-plugins-rails/rails_requests /usr/share/munin/plugins/
+    chmod +x /usr/share/munin/plugins/rails_requests
+    ln -s /usr/share/munin/plugins/rails_requests /etc/munin/plugins/rails_requests
+    sudo vi /etc/munin/plugin-conf.d/munin-node
+# Paste this to the bottom of the file
+	[mongo*]
+	env.dbname replace_with_your_database_name
+# Save, and exit
+# Restart the munin node 
+	sudo /etc/init.d/munin-node restart
+# Make sure the munin server is listening from this node and you should be good to go!
+
+Enjoy!
