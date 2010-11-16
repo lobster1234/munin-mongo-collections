@@ -16,35 +16,35 @@ Follow these steps on the same server you're running your mongo instance on.
 
 NOTE: If running master/slave I'd recommend doing this on just *one* of the slave nodes. Do not set up this plugin on all the nodes in a replica-set/replica-pair or master/slave config, as they all will report pretty much the same data.
 
-# Verify if you have mongo gem installed
+* Verify if you have mongo gem installed
 	mpandit@mpandit-ubuntu:~$ gem list | grep mongo
 	mongo (1.1.2, 1.1)
-# If missing, then install with 
+* If missing, then install with 
 	gem install mongo
-# Grab the plugin
+* Grab the plugin
 	git clone git://github.com/lobster1234/munin-mongo-collections
-# Make sure mongo_collections.rb is +x for owner, group and others  
+* Make sure mongo_collections.rb is +x for owner, group and others  
 	cp mongo_collections.rb /usr/share/munin/plugins/
 	ln -s /usr/share/munin/plugins/mongo_collections.rb /etc/munin/plugins/mongo_collections.rb
-# Now to add the database name to the plugin configuration, do this:
+* Now to add the database name to the plugin configuration, do this:
     cp munin-plugins-rails/rails_requests /usr/share/munin/plugins/
     chmod +x /usr/share/munin/plugins/rails_requests
     ln -s /usr/share/munin/plugins/rails_requests /etc/munin/plugins/rails_requests
     sudo vi /etc/munin/plugin-conf.d/munin-node
-# Paste this to the bottom of the file
+* Paste this to the bottom of the file
 	[mongo*]
 	env.dbname replace_with_your_database_name
-# Save, and exit
-# Restart the munin node 
+* Save, and exit
+* Restart the munin node 
 	sudo /etc/init.d/munin-node restart
-# Make sure the munin server is listening from this node and you should be good to go!
+* Make sure the munin server is listening from this node and you should be good to go!
 
 ==Test
-# You can test this by simply running the plugin on command line (replace mydb with your database name)
+* You can test this by simply running the plugin on command line (replace mydb with your database name)
        export dbname=mydb 
        cd /etc/munin/plugins
        ./mongo_collections config
-# You should see something like this, in this case mydb contains only 1 collection called twitter.
+* You should see something like this, in this case mydb contains only 1 collection called twitter.
        twitter.label twitter
        twitter.min 0
        twitter.max 3000000
@@ -57,10 +57,10 @@ NOTE: If running master/slave I'd recommend doing this on just *one* of the slav
        graph_category MongoDB
 
 ==TODO
-# Support discovery of databases on the node and pick up the collections in every db
-# Support datbase/collection names whitelisting where only the whitelisted dbs/collections will be scanned
-# Support user/password auth
-# Remove dependency on running on the same node as the mongo instance.
+* Support discovery of databases on the node and pick up the collections in every db
+* Support datbase/collection names whitelisting where only the whitelisted dbs/collections will be scanned
+* Support user/password auth
+* Remove dependency on running on the same node as the mongo instance.
 
 Enjoy!
 
